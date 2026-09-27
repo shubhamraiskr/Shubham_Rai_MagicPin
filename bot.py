@@ -28,6 +28,25 @@ from conversation_handlers import conversation_manager
 app = FastAPI(title="Vera Merchant AI Bot", version="1.0.0")
 START_TIME = time.time()
 
+
+@app.get("/")
+async def root():
+    """Root endpoint — welcome message."""
+    return {
+        "bot": "Vera Merchant AI Bot",
+        "version": "1.0.0",
+        "status": "running",
+        "endpoints": [
+            "GET  /v1/healthz",
+            "GET  /v1/metadata",
+            "POST /v1/context",
+            "POST /v1/tick",
+            "POST /v1/reply",
+            "POST /v1/teardown"
+        ]
+    }
+
+
 # In-memory stores
 # (scope, context_id) -> {"version": int, "payload": dict}
 contexts: Dict[tuple[str, str], Dict[str, Any]] = {}
